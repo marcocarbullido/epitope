@@ -30,7 +30,7 @@ class AFPred():
     from colabfold.download import download_alphafold_params, default_data_dir
     from colabfold.utils import setup_logging
     from colabfold.batch import get_queries, run, set_model_type
-    results_dir = f'/content/drive/MyDrive/bio/colabfold/{jobname}'
+    results_dir = f'/content/drive/MyDrive/epitope/{jobname}'
     os.makedirs(results_dir, exist_ok=True)
     queries_path = os.path.join(results_dir, f"{jobname}.csv")
     with open(queries_path, "w") as text_file:
