@@ -4,6 +4,7 @@ from Bio import BiopythonDeprecationWarning
 from pathlib import Path
 warnings.simplefilter(action='ignore', category=BiopythonDeprecationWarning)
 warnings.simplefilter(action='ignore', category=FutureWarning)
+from protein import Protein
 
 class AFPred():
   def __init__(self):
@@ -26,11 +27,18 @@ class AFPred():
       os.system(f"mamba install -y -c conda-forge openmm=7.7.0 python='{self.python_version}' pdbfixer")
       os.system("touch AMBER_READY")
 
-  def colabfold_predict(self, query_sequence, jobname):
+  def colabfold_predict(self, pdb_path, jobname):
     from colabfold.download import download_alphafold_params, default_data_dir
     from colabfold.utils import setup_logging
     from colabfold.batch import get_queries, run, set_model_type
-    results_dir = f'/content/drive/MyDrive/epitope/{jobname}'
+    assert not "1" in os.popen('nvidia-smi | grep "Tesla K80" | wc -l').read()
+    # Need for pdbfixer to import
+    if f"/usr/local/lib/python{self.python_version}/site-packages/" not in sys.path:
+        sys.path.insert(0, f"/usr/local/lib/python{self.python_version}/site-packages/")
+
+    p = Protein(pdb_path)
+    query_sequence = ''.join(p.sequence.values())
+    results_dir = pdb_path.split('.')[0]
     os.makedirs(results_dir, exist_ok=True)
     queries_path = os.path.join(results_dir, f"{jobname}.csv")
     with open(queries_path, "w") as text_file:
@@ -39,11 +47,6 @@ class AFPred():
     print("jobname",jobname)
     print("sequence",query_sequence)
     print("length",len(query_sequence))
-
-    assert not "1" in os.popen('nvidia-smi | grep "Tesla K80" | wc -l').read()
-    # Need for pdbfixer to import
-    if f"/usr/local/lib/python{self.python_version}/site-packages/" not in sys.path:
-        sys.path.insert(0, f"/usr/local/lib/python{self.python_version}/site-packages/")
 
     log_filename = os.path.join(results_dir,"log.txt")
     setup_logging(Path(log_filename))
