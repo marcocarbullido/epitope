@@ -26,7 +26,7 @@ class AFPred():
       os.system(f"mamba install -y -c conda-forge openmm=7.7.0 python='{self.python_version}' pdbfixer")
       os.system("touch AMBER_READY")
 
-  def colabfold_predict(self, pdb_path):
+  def colabfold_predict(self, pdb_path, num_recycles=5):
     pdb_id = pdb_path.split('/')[-1].split('.')[0]
     from colabfold.download import download_alphafold_params, default_data_dir
     from colabfold.utils import setup_logging
@@ -63,7 +63,7 @@ class AFPred():
         msa_mode="mmseqs2_uniref_env",
         model_type=model_type,
         num_models=1,
-        num_recycles=7,
+        num_recycles=num_recycles,
         relax_max_iterations=200,
         recycle_early_stop_tolerance=None,
         num_seeds=1,
