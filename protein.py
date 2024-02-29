@@ -15,7 +15,7 @@ class Protein():
       sequence_dict.setdefault(line[5], self.three_to_one(line[3]))
     return sequence_dict
 
-  def three_to_one(three_letter_code):
+  def three_to_one(self, three_letter_code):
     '''converts any three letter code to a one letter code'''
     mapping = {'Ala':'A',
               'Arg':'R',
