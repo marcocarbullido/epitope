@@ -6,6 +6,9 @@ warnings.simplefilter(action='ignore', category=BiopythonDeprecationWarning)
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 class AFPred():
+  from colabfold.download import download_alphafold_params, default_data_dir
+  from colabfold.utils import setup_logging
+  from colabfold.batch import get_queries, run, set_model_type
   def __init__(self):
     self.root = '/content/drive/MyDrive/bio/colabfold/'
     self.python_version = f"{version_info.major}.{version_info.minor}"
@@ -25,9 +28,6 @@ class AFPred():
       print("installing amber...")
       os.system(f"mamba install -y -c conda-forge openmm=7.7.0 python='{self.python_version}' pdbfixer")
       os.system("touch AMBER_READY")
-    from colabfold.download import download_alphafold_params, default_data_dir
-    from colabfold.utils import setup_logging
-    from colabfold.batch import get_queries, run, set_model_type
 
   def colabfold_predict(self, query_sequence, jobname):
     results_dir = f'/content/drive/MyDrive/bio/colabfold/{jobname}'
