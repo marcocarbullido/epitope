@@ -4,11 +4,10 @@ from Bio import BiopythonDeprecationWarning
 from pathlib import Path
 warnings.simplefilter(action='ignore', category=BiopythonDeprecationWarning)
 warnings.simplefilter(action='ignore', category=FutureWarning)
-from epitope.protein import Protein
+from protein import Protein
 
 class AFPred():
   def __init__(self):
-    self.root = '/content/drive/MyDrive/bio/colabfold/'
     self.python_version = f"{version_info.major}.{version_info.minor}"
     if not os.path.isfile("COLABFOLD_READY"):
       print("installing colabfold...")
@@ -27,7 +26,8 @@ class AFPred():
       os.system(f"mamba install -y -c conda-forge openmm=7.7.0 python='{self.python_version}' pdbfixer")
       os.system("touch AMBER_READY")
 
-  def colabfold_predict(self, pdb_path, jobname):
+  def colabfold_predict(self, pdb_path):
+    pdb_id = pdb_path.split('/')[-1].split('.')[0]
     from colabfold.download import download_alphafold_params, default_data_dir
     from colabfold.utils import setup_logging
     from colabfold.batch import get_queries, run, set_model_type
@@ -40,11 +40,11 @@ class AFPred():
     query_sequence = ''.join(p.sequence.values())
     results_dir = pdb_path.split('.')[0]
     os.makedirs(results_dir, exist_ok=True)
-    queries_path = os.path.join(results_dir, f"{jobname}.csv")
+    queries_path = os.path.join(results_dir, f"{pdb_id}.csv")
     with open(queries_path, "w") as text_file:
-      text_file.write(f"id,sequence\n{jobname},{query_sequence}")
+      text_file.write(f"id,sequence\n{pdb_id},{query_sequence}")
 
-    print("jobname",jobname)
+    print("pdb_id",pdb_id)
     print("sequence",query_sequence)
     print("length",len(query_sequence))
 
