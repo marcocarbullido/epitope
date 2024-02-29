@@ -1,2 +1,2 @@
-from epitope.protein import Protein
-from epitope.afpred import AFPred
+from .protein import Protein
+from .afpred import AFPred
