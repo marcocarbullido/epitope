@@ -1,14 +1,14 @@
 import time, warnings
-warnings.simplefilter(action='ignore', category=BiopythonDeprecationWarning)
 from sys import version_info
 from Bio import BiopythonDeprecationWarning
-warnings.simplefilter(action='ignore', category=FutureWarning)
 from pathlib import Path
 from colabfold.download import download_alphafold_params, default_data_dir
 from colabfold.utils import setup_logging
 from colabfold.batch import get_queries, run, set_model_type
 from colabfold.colabfold import plot_protein
 from pathlib import Path
+warnings.simplefilter(action='ignore', category=BiopythonDeprecationWarning)
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 class ColabFold():
   def __init__(self):
