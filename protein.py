@@ -13,4 +13,4 @@ class Protein():
     sequence_dict = {}
     for line in self.lines:
       sequence_dict.setdefault(line[5], line[3])
-      return sequence_dict
+    return sequence_dict
