@@ -10,7 +10,7 @@ from pathlib import Path
 warnings.simplefilter(action='ignore', category=BiopythonDeprecationWarning)
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-class ColabFold():
+class AFPred():
   def __init__(self):
     self.root = '/content/drive/MyDrive/bio/colabfold/'
     self.python_version = f"{version_info.major}.{version_info.minor}"
