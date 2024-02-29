@@ -4,7 +4,7 @@ from Bio import BiopythonDeprecationWarning
 from pathlib import Path
 warnings.simplefilter(action='ignore', category=BiopythonDeprecationWarning)
 warnings.simplefilter(action='ignore', category=FutureWarning)
-from protein import Protein
+from epitope.protein import Protein
 
 class AFPred():
   def __init__(self):
