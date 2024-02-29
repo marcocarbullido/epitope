@@ -2,11 +2,6 @@ import time, warnings
 from sys import version_info
 from Bio import BiopythonDeprecationWarning
 from pathlib import Path
-from colabfold.download import download_alphafold_params, default_data_dir
-from colabfold.utils import setup_logging
-from colabfold.batch import get_queries, run, set_model_type
-from colabfold.colabfold import plot_protein
-from pathlib import Path
 warnings.simplefilter(action='ignore', category=BiopythonDeprecationWarning)
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
@@ -30,6 +25,9 @@ class AFPred():
       print("installing amber...")
       os.system(f"mamba install -y -c conda-forge openmm=7.7.0 python='{self.python_version}' pdbfixer")
       os.system("touch AMBER_READY")
+    from colabfold.download import download_alphafold_params, default_data_dir
+    from colabfold.utils import setup_logging
+    from colabfold.batch import get_queries, run, set_model_type
 
   def colabfold_predict(self, query_sequence, jobname):
     results_dir = f'/content/drive/MyDrive/bio/colabfold/{jobname}'
