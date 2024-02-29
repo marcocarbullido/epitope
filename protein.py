@@ -56,5 +56,4 @@ class Protein():
     fasta =  '>' + os.path.basename(self.path).split('.pdb')[0] + '\n' + ''.join(self.sequence.values())
     with open(fasta_dest, 'w') as f:
       f.write(fasta)
-    self.sequence
     return fasta_dest
