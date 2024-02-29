@@ -1,4 +1,4 @@
-import time, warnings
+import time, warnings, os
 from sys import version_info
 from Bio import BiopythonDeprecationWarning
 from pathlib import Path
