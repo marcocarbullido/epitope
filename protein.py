@@ -1,3 +1,4 @@
+import os
 class Protein():
   def __init__(self, path):
     self.path = path
