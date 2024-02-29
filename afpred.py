@@ -6,9 +6,6 @@ warnings.simplefilter(action='ignore', category=BiopythonDeprecationWarning)
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 class AFPred():
-  from colabfold.download import download_alphafold_params, default_data_dir
-  from colabfold.utils import setup_logging
-  from colabfold.batch import get_queries, run, set_model_type
   def __init__(self):
     self.root = '/content/drive/MyDrive/bio/colabfold/'
     self.python_version = f"{version_info.major}.{version_info.minor}"
@@ -30,6 +27,9 @@ class AFPred():
       os.system("touch AMBER_READY")
 
   def colabfold_predict(self, query_sequence, jobname):
+    from colabfold.download import download_alphafold_params, default_data_dir
+    from colabfold.utils import setup_logging
+    from colabfold.batch import get_queries, run, set_model_type
     results_dir = f'/content/drive/MyDrive/bio/colabfold/{jobname}'
     os.makedirs(results_dir, exist_ok=True)
     queries_path = os.path.join(results_dir, f"{jobname}.csv")
