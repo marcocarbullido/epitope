@@ -1,9 +1,6 @@
-import time, warnings, os, sys
+import time, os, sys
 from sys import version_info
-from Bio import BiopythonDeprecationWarning
 from pathlib import Path
-warnings.simplefilter(action='ignore', category=BiopythonDeprecationWarning)
-warnings.simplefilter(action='ignore', category=FutureWarning)
 from epitope.protein import Protein
 
 class AFPred():
