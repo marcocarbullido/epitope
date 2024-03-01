@@ -1,13 +1,13 @@
 import os
 class Protein():
-  def __init__(self, path):
-    self.path = path
-    folder = self.path.split('.pdb')[0]
-    if not os.path.isdir(folder):
-      os.mkdir(folder)
-    self.lines = self.get_lines()
+  def __init__(self, original_location):
+    self.folder = original_location.split('.pdb')[0]
+    if not os.path.isdir(self.folder):
+      os.mkdir(self.folder)
+    new_location = os.path.join(self.folder, os.path.basename(original_location))
+    os.rename(original_location, new_location)
+    self.path = new_location
     self.sequence = self.get_sequence()
-    self.seq_path = self.make_fasta()
     
   def get_lines(self):
     with open(self.path, 'r') as f:
@@ -15,8 +15,11 @@ class Protein():
     return [f.split() for f in all_lines if f.startswith("ATOM")]
   
   def get_sequence(self):
+    with open(self.path, 'r') as f:
+      all_lines = f.readlines()
+    lines = [f.split() for f in all_lines if f.startswith("ATOM")]
     sequence_dict = {}
-    for line in self.lines:
+    for line in lines:
       sequence_dict.setdefault(line[5], self.three_to_one(line[3]))
     return sequence_dict
 
@@ -50,10 +53,3 @@ class Protein():
       else:
         print(f"    WARNING: {three_letter_code} was not found in function three_to_one map")
     return mapping[three_letter_code[0].upper() + three_letter_code[1:].lower()]
-
-  def make_fasta(self):
-    fasta_dest = os.path.join(self.path.split('.pdb')[0], os.path.basename(self.path).split('.pdb')[0]+'.fasta')
-    fasta =  '>' + os.path.basename(self.path).split('.pdb')[0] + '\n' + ''.join(self.sequence.values())
-    with open(fasta_dest, 'w') as f:
-      f.write(fasta)
-    return fasta_dest
